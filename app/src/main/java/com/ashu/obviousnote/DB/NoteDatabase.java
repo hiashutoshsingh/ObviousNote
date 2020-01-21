@@ -9,6 +9,7 @@ import androidx.room.RoomDatabase;
 
 @Database(entities = {Note.class}, version = 1, exportSchema = false)
 public abstract class NoteDatabase extends RoomDatabase {
+
     private static final String DB_NAME = "NotesDb";
     private static NoteDatabase instance;
     public abstract NoteDAO noteDAO();
@@ -21,5 +22,4 @@ public abstract class NoteDatabase extends RoomDatabase {
         }
         return instance;
     }
-
 }

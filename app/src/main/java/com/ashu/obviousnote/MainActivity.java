@@ -16,6 +16,7 @@ import android.widget.EditText;
 
 import com.ashu.obviousnote.DB.Note;
 import com.ashu.obviousnote.DB.NoteDatabase;
+import com.ashu.obviousnote.Utils.CommonMethods;
 import com.ashu.obviousnote.adapter.NotesAdapter;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -75,6 +76,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Snackbar.make(view, "Please Add Note", Snackbar.LENGTH_SHORT).show();
                 return;
             }
+            Note note = new Note(title.getText().toString().trim());
+            note.setNote(title.getText().toString().trim());
+            note.setTime(CommonMethods.getCurrentDateTime());
+            noteDatabase.noteDAO().insertNote(note);
+            notesAdapter.notifyDataSetChanged();
+            dialog.dismiss();
         });
     }
 
