@@ -3,6 +3,9 @@ package com.ashu.obviousnote.DB;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
+
+import com.ashu.obviousnote.Utils.TimeStampConverter;
 
 import java.util.Date;
 
@@ -14,6 +17,7 @@ public class Note {
     @ColumnInfo(name = "note")
     private String note;
     @ColumnInfo(name = "time")
+    @TypeConverters({TimeStampConverter.class})
     public Date time;
 
     public Note(String note) {

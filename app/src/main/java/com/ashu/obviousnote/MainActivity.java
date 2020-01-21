@@ -19,8 +19,7 @@ import io.reactivex.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    View snackView;
-    Button add;
+    private Button add;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +31,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         add.setOnClickListener(this);
     }
 
-    void createAddTaskDialog() {
+    void createAddTaskDialog(View view) {
         Dialog dialog = new Dialog(this);
         dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         dialog.getWindow().setDimAmount(0.5f);
@@ -41,9 +40,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button add = dialog.findViewById(R.id.add);
         dialog.show();
 
-        add.setOnClickListener((view) -> {
+        add.setOnClickListener((v) -> {
             if (title.getText().toString().equals("")) {
-                Snackbar.make(snackView, "Please Add Note", Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(view, "Please Add Note", Snackbar.LENGTH_SHORT).show();
                 return;
             }
 
@@ -57,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.add:
-                createAddTaskDialog();
+                createAddTaskDialog(v);
                 break;
         }
     }
