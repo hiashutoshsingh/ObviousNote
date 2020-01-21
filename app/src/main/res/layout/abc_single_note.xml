@@ -21,7 +21,8 @@
             android:layout_height="wrap_content"
             android:text="Note"
             android:textColor="#000"
-            android:textSize="22sp" />
+            android:textSize="26sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/task_time"
@@ -29,9 +30,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginLeft="10dp"
-            android:text="time"
+            android:text="Time"
             android:textColor="#504F4F"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
 
 
         <TextView
@@ -40,7 +41,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/task_name"
             android:text="Note Details"
-            android:textColor="#000"
             android:textSize="22sp" />
 
     </RelativeLayout>

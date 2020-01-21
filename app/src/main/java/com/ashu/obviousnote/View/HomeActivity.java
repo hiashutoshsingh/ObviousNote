@@ -1,23 +1,22 @@
-package com.ashu.obviousnote;
+package com.ashu.obviousnote.View;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
 import android.os.Bundle;
-import android.provider.SyncStateContract;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.ashu.obviousnote.DB.Note;
 import com.ashu.obviousnote.DB.NoteDatabase;
+import com.ashu.obviousnote.R;
 import com.ashu.obviousnote.Utils.CommonMethods;
-import com.ashu.obviousnote.adapter.NotesAdapter;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
@@ -26,9 +25,9 @@ import java.util.List;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private static final String TAG = MainActivity.class.getSimpleName();
+    private static final String TAG = HomeActivity.class.getSimpleName();
     private Button add;
     private RecyclerView rvNotes;
     private NoteDatabase noteDatabase;
@@ -46,9 +45,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         rvNotes.setLayoutManager(new LinearLayoutManager(this));
         notesAdapter = new NotesAdapter(noteList, ratingModel -> {
+            showNote(ratingModel);
         });
         rvNotes.setAdapter(notesAdapter);
         add.setOnClickListener(this);
+    }
+
+    private void showNote(Note ratingModel) {
+        Dialog dialog = new Dialog(this);
+        dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setDimAmount(0.5f);
+        dialog.setContentView(R.layout.abc_single_show_note);
+        TextView title = dialog.findViewById(R.id.task_name);
+        TextView task_details = dialog.findViewById(R.id.task_details);
+        TextView task_time = dialog.findViewById(R.id.task_time);
+        title.setText(ratingModel.getNote());
+        task_details.setText(ratingModel.getDetails());
+        task_time.setText(CommonMethods.getFormattedDateString(ratingModel.getTime()));
+        dialog.show();
     }
 
 
@@ -70,7 +84,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         dialog.setContentView(R.layout.abc_dialog_layout);
         EditText title = dialog.findViewById(R.id.task_title);
         EditText details = dialog.findViewById(R.id.task_details);
-
         Button add = dialog.findViewById(R.id.add);
         dialog.show();
         add.setOnClickListener((v) -> {
