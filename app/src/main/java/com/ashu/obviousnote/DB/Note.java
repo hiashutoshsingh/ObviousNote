@@ -16,12 +16,15 @@ public class Note {
     private int id;
     @ColumnInfo(name = "note")
     private String note;
+    @ColumnInfo(name = "details")
+    private String details;
     @ColumnInfo(name = "time")
     @TypeConverters({TimeStampConverter.class})
     public Date time;
 
-    public Note(String note) {
+    public Note(String note, String details) {
         this.note = note;
+        this.details = details;
     }
 
     public Date getTime() {
@@ -30,6 +33,14 @@ public class Note {
 
     public void setTime(Date time) {
         this.time = time;
+    }
+
+    public String getDetails() {
+        return details;
+    }
+
+    public void setDetails(String details) {
+        this.details = details;
     }
 
     public int getId() {

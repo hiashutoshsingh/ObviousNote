@@ -42,16 +42,18 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView task_time, task_name;
+        TextView task_time, task_name,task_details;
 
         ViewHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.abc_single_task, parent, false));
             task_name = itemView.findViewById(R.id.task_name);
+            task_details = itemView.findViewById(R.id.task_details);
             task_time = itemView.findViewById(R.id.task_time);
         }
 
         public void bind(final Note ratingModel, final OnItemClickListener listener) {
             task_name.setText(ratingModel.getNote());
+            task_details.setText(ratingModel.getDetails());
             if (ratingModel.getTime() != null) {
                 task_time.setVisibility(View.VISIBLE);
                 task_time.setText(CommonMethods.getFormattedDateString(ratingModel.getTime()));

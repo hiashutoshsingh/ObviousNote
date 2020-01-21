@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     noteList.clear();
                     noteList.addAll(ratings);
                     notesAdapter.notifyDataSetChanged();
-                }, e -> Log.d(TAG, "error: " + e.getMessage()));
+                }, e -> Log.e(TAG, "error: " + e.getMessage()));
     }
 
     void createAddTaskDialog(View view) {
@@ -69,15 +69,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         dialog.getWindow().setDimAmount(0.5f);
         dialog.setContentView(R.layout.abc_dialog_layout);
         EditText title = dialog.findViewById(R.id.task_title);
+        EditText details = dialog.findViewById(R.id.task_details);
+
         Button add = dialog.findViewById(R.id.add);
         dialog.show();
         add.setOnClickListener((v) -> {
-            if (title.getText().toString().equals("")) {
+            if (title.getText().toString().equals("") || details.getText().toString().equals("")) {
                 Snackbar.make(view, "Please Add Note", Snackbar.LENGTH_SHORT).show();
                 return;
             }
-            Note note = new Note(title.getText().toString().trim());
+            Note note = new Note(title.getText().toString().trim(), details.getText().toString().trim());
             note.setNote(title.getText().toString().trim());
+            note.setDetails(details.getText().toString().trim());
             note.setTime(CommonMethods.getCurrentDateTime());
             noteDatabase.noteDAO().insertNote(note);
             notesAdapter.notifyDataSetChanged();

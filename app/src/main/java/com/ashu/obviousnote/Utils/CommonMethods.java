@@ -14,12 +14,15 @@ public class CommonMethods {
 
     public static String getFormattedDateString(Date date) {
         try {
-            SimpleDateFormat spf = new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy");
-            String dateString = spf.format(date);
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy");
+            String dateString = simpleDateFormat.format(date);
+            Date newDate = simpleDateFormat.parse(dateString);
+            simpleDateFormat = new SimpleDateFormat("dd MMM yyyy");
 
-            Date newDate = spf.parse(dateString);
-            spf = new SimpleDateFormat("dd MMM yyyy HH:mm:ss");
-            return spf.format(newDate);
+            SimpleDateFormat timeFormatter = new SimpleDateFormat("h:mm a");
+            String displayValue = timeFormatter.format(date);
+
+            return simpleDateFormat.format(newDate) + ", " + displayValue;
 
         } catch (ParseException e) {
             e.printStackTrace();
