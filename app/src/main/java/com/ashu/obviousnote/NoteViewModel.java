@@ -1,12 +1,8 @@
 package com.ashu.obviousnote;
 
-import android.arch.lifecycle.ViewModel;
-
 import androidx.lifecycle.ViewModel;
 
 import com.ashu.obviousnote.DB.Note;
-import com.example.hassanusman.things2do.DataSource;
-import com.example.hassanusman.things2do.presistence.model.Task;
 
 import java.util.List;
 

@@ -2,6 +2,8 @@ package com.ashu.obviousnote;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
 import android.os.Bundle;
@@ -12,23 +14,52 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.ashu.obviousnote.DB.Note;
+import com.ashu.obviousnote.DB.NoteDatabase;
+import com.ashu.obviousnote.adapter.NotesAdapter;
 import com.google.android.material.snackbar.Snackbar;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private static final String TAG = MainActivity.class.getSimpleName();
     private Button add;
+    private RecyclerView rvNotes;
+    private NoteDatabase noteDatabase;
+    private List<Note> noteList = new ArrayList<>();
+    private NotesAdapter notesAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         add = findViewById(R.id.add);
+        rvNotes = findViewById(R.id.rvNotes);
+        noteDatabase = NoteDatabase.getInstance(this);
+        readData();
 
-
+        rvNotes.setLayoutManager(new LinearLayoutManager(this));
+        notesAdapter = new NotesAdapter(noteList, ratingModel -> {
+        });
+        rvNotes.setAdapter(notesAdapter);
         add.setOnClickListener(this);
+    }
+
+
+    private void readData() {
+        noteDatabase.noteDAO().getAllNotes()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(ratings -> {
+                    noteList.clear();
+                    noteList.addAll(ratings);
+                    notesAdapter.notifyDataSetChanged();
+                }, e -> Log.d(TAG, "error: " + e.getMessage()));
     }
 
     void createAddTaskDialog(View view) {
@@ -39,16 +70,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         EditText title = dialog.findViewById(R.id.task_title);
         Button add = dialog.findViewById(R.id.add);
         dialog.show();
-
         add.setOnClickListener((v) -> {
             if (title.getText().toString().equals("")) {
                 Snackbar.make(view, "Please Add Note", Snackbar.LENGTH_SHORT).show();
                 return;
             }
-
         });
-
-
     }
 
 
